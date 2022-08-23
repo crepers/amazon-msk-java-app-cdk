@@ -15,21 +15,23 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import {CfnParameter} from "@aws-cdk/core";
-import * as ecs from "@aws-cdk/aws-ecs";
-import * as ec2 from "@aws-cdk/aws-ec2";
-import {InstanceClass, InstanceSize} from "@aws-cdk/aws-ec2";
+import * as cdk from "aws-cdk-lib";
+import { Construct } from 'constructs';
+
+import {CfnParameter} from "aws-cdk-lib";
+import * as ecs from "aws-cdk-lib/aws-ecs";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import {InstanceClass, InstanceSize} from "aws-cdk-lib/aws-ec2";
 import {VpcStack} from "./vpc-stack";
-import * as assets from "@aws-cdk/aws-ecr-assets";
-import * as iam from "@aws-cdk/aws-iam";
-import {Effect} from "@aws-cdk/aws-iam";
+import * as assets from "aws-cdk-lib/aws-ecr-assets";
+import * as iam from "aws-cdk-lib/aws-iam";
+import {Effect} from "aws-cdk-lib/aws-iam";
 
 export class FargateStack extends cdk.Stack {
     private tableName = "Accounts";
     private groupId = "transaction-consumers";
 
-    constructor(vpcStack: VpcStack, scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    constructor(vpcStack: VpcStack, scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
         let bootstrapAddress = new CfnParameter(this, "bootstrapAddress", {

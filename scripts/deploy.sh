@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # export AWS_PROFILE=<REPLACE WITH YOUR AWS PROFILE NAME> or alternatively follow instructions on https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_prerequisites
 
-cd ../amazon-msk-java-app-cdk || exit
+cd ../amazon-msk-java-app-cdk/lambda || exit
+echo "Install packages for lambda runtime"
+npm install
+cd .. || exit
 echo "Deploying VpcStack..."
 cdk deploy VpcStack --require-approval never --verbose
 echo "Deploying DynamoDbStack..."
@@ -22,6 +25,13 @@ cdk deploy LambdaStack --parameters LambdaStack:bootstrapAddress="$kafka_brokers
 #to install Maven run:  sudo apt install maven
 echo "Installing Maven project..."
 cd ../consumer || exit
+
+# install Maven to compile java project
+sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+sudo yum install -y apache-maven
+
+echo "Compiling the java project..."
 mvn clean install
 
 cd ../amazon-msk-java-app-cdk || exit

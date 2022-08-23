@@ -60,6 +60,9 @@ The KafkaTopicHandler Lambda function is called once during deployment to create
    ```shell
    aws lambda invoke --cli-binary-format raw-in-base64-out --function-name TransactionHandler --log-type Tail --payload '{ "accountId": "account_123", "value": 456}' /dev/stdout --query 'LogResult' --output text | base64 -d
    ```
+   ```shell
+   aws lambda invoke --function-name TransactionHandler --log-type Tail --payload '{ "accountId": "account_123", "value": 456}' out --query 'LogResult' --output text | base64 -d
+   ```
 7. To view results in DynamoDB table you can run below command. Alternatively you can navigate to Amazon DynamoDB AWS console and select `Accounts` table.
     ```shell
     aws dynamodb scan --table-name Accounts --query "Items[*].[id.S,Balance.N]" --output text
